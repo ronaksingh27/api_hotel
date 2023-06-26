@@ -13,10 +13,16 @@ dotenv.config();
 
 const connect = async () => {
   try {
+    if (!process.env.MONGO) {
+      throw new Error('MongoDB URI is not defined in the environment variables.');
+    }
     await mongoose.connect(process.env.MONGO);
-    console.log("Connected to mongoDB.");
+    console.log('Connected to MongoDB.');
   } catch (error) {
-    throw error;
+    console.error('Error connecting to MongoDB:', error);
+    // You can handle the error further if needed
+    // For example, you might want to exit the application if the connection fails
+    process.exit(1);
   }
 };
 
